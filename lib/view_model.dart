@@ -49,18 +49,18 @@ class GreenViewModel {
 class FutureViewModel {
   static Future<FutureViewModel> createFutureViewModel() async {
     await Future.delayed(const Duration(seconds: 3));
-    print("createFutureViewModel");
+    print("create FutureViewModel");
     return FutureViewModel();
   }
 
   int counter = 1;
   add() {
     counter++;
-    print("Add GreenViewModel " + counter.toString());
+    print("Add FutureViewModel " + counter.toString());
   }
 
   subtract() {
     counter--;
-    print("Subtract GreenViewModel " + counter.toString());
+    print("Subtract FutureViewModel " + counter.toString());
   }
 }

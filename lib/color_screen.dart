@@ -128,7 +128,7 @@ class FutureScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         const Text("FutureScreen"),
-                        const Text('registerSingleton is initialized on use and saved'),
+                        const Text('registerFactoryAsync is initialized on use and close'),
                         Text("Future ViewModel counter ${futureViewModel.counter.toString()}"),
                         Buttons(
                           add: () => futureViewModel.add(),
@@ -142,7 +142,9 @@ class FutureScreen extends StatelessWidget {
                         )
                       ]);
                 }
-                return const CircularProgressIndicator();
+                return const CircularProgressIndicator(
+                  color: Colors.white,
+                );
               }),
         ));
   }
