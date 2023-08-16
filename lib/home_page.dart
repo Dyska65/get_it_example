@@ -15,57 +15,81 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Column(
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            buildColorItem(
-                name: "Yellow ",
-                isRegisteredViewModel: getIt.isRegistered<YellowViewModel>(),
-                nextPage: () => Navigator.push(
-                      context,
-                      MaterialPageRoute<void>(
-                        builder: (BuildContext context) => const YellowScreen(),
+          children: [
+            Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: <Widget>[
+              buildColorItem(
+                  name: "Future ModelView",
+                  isRegisteredViewModel: getIt.isRegistered<FutureViewModel>(),
+                  nextPage: () => Navigator.push(
+                        context,
+                        MaterialPageRoute<void>(
+                          builder: (BuildContext context) => const FutureScreen(),
+                        ),
                       ),
-                    ),
-                onRegistering: () async {
-                  getIt.isRegistered<YellowViewModel>()
-                      ? await getIt.unregister<YellowViewModel>()
-                      : getIt.registerSingleton<YellowViewModel>(YellowViewModel());
+                  onRegistering: () async {
+                    getIt.isRegistered<FutureViewModel>()
+                        ? await getIt.unregister<FutureViewModel>()
+                        : getIt.registerFactoryAsync<FutureViewModel>(
+                            () => FutureViewModel.createFutureViewModel());
 
-                  setState(() {});
-                }),
-            buildColorItem(
-                name: "Red ",
-                isRegisteredViewModel: getIt.isRegistered<RedViewModel>(),
-                nextPage: () => Navigator.push(
-                      context,
-                      MaterialPageRoute<void>(
-                        builder: (BuildContext context) => const RedScreen(),
-                      ),
-                    ),
-                onRegistering: () async {
-                  getIt.isRegistered<RedViewModel>()
-                      ? await getIt.unregister<RedViewModel>()
-                      : getIt.registerSingleton<RedViewModel>(RedViewModel());
+                    setState(() {});
+                  })
+            ]),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                buildColorItem(
+                    name: "Yellow ",
+                    isRegisteredViewModel: getIt.isRegistered<YellowViewModel>(),
+                    nextPage: () => Navigator.push(
+                          context,
+                          MaterialPageRoute<void>(
+                            builder: (BuildContext context) => const YellowScreen(),
+                          ),
+                        ),
+                    onRegistering: () async {
+                      getIt.isRegistered<YellowViewModel>()
+                          ? await getIt.unregister<YellowViewModel>()
+                          : getIt.registerSingleton<YellowViewModel>(YellowViewModel());
 
-                  setState(() {});
-                }),
-            buildColorItem(
-                name: "Green ",
-                isRegisteredViewModel: getIt.isRegistered<GreenViewModel>(),
-                nextPage: () => Navigator.push(
-                      context,
-                      MaterialPageRoute<void>(
-                        builder: (BuildContext context) => const GreenScreen(),
-                      ),
-                    ),
-                onRegistering: () async {
-                  getIt.isRegistered<GreenViewModel>()
-                      ? await getIt.unregister<GreenViewModel>()
-                      : getIt.registerSingleton<GreenViewModel>(GreenViewModel());
+                      setState(() {});
+                    }),
+                buildColorItem(
+                    name: "Red ",
+                    isRegisteredViewModel: getIt.isRegistered<RedViewModel>(),
+                    nextPage: () => Navigator.push(
+                          context,
+                          MaterialPageRoute<void>(
+                            builder: (BuildContext context) => const RedScreen(),
+                          ),
+                        ),
+                    onRegistering: () async {
+                      getIt.isRegistered<RedViewModel>()
+                          ? await getIt.unregister<RedViewModel>()
+                          : getIt.registerSingleton<RedViewModel>(RedViewModel());
 
-                  setState(() {});
-                }),
+                      setState(() {});
+                    }),
+                buildColorItem(
+                    name: "Green ",
+                    isRegisteredViewModel: getIt.isRegistered<GreenViewModel>(),
+                    nextPage: () => Navigator.push(
+                          context,
+                          MaterialPageRoute<void>(
+                            builder: (BuildContext context) => const GreenScreen(),
+                          ),
+                        ),
+                    onRegistering: () async {
+                      getIt.isRegistered<GreenViewModel>()
+                          ? await getIt.unregister<GreenViewModel>()
+                          : getIt.registerSingleton<GreenViewModel>(GreenViewModel());
+
+                      setState(() {});
+                    }),
+              ],
+            ),
           ],
         ),
       ),

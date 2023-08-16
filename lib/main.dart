@@ -14,6 +14,7 @@ void main() {
   getIt.registerLazySingleton<GreenViewModel>(
       () => GreenViewModel()); // init only when used and store
   getIt.registerFactory<RedViewModel>(() => RedViewModel(), instanceName: "2 RedViewModel");
+  getIt.registerFactoryAsync<FutureViewModel>(() => FutureViewModel.createFutureViewModel());
   runApp(const MyApp());
 }
 

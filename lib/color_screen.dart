@@ -7,7 +7,9 @@ class RedScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    RedViewModel redViewModel = getIt.get<RedViewModel>(instanceName: "2 RedViewModel");
+    RedViewModel redViewModel2 = getIt.get<RedViewModel>(instanceName: "2 RedViewModel");
+    RedViewModel redViewModel1 = getIt.get<RedViewModel>(instanceName: "1 RedViewModel");
+
     return Scaffold(
       backgroundColor: Colors.red,
       body: Center(
@@ -21,10 +23,15 @@ class RedScreen extends StatelessWidget {
                 child: Text(
                     "Is it example detail object model view because we used registerFactory. You have to pass a factory function func that returns a NEW instance of an implementation of T. Each time you call get<T>() you will get a new instance returned. How to pass parameters to a factory you can find here."),
               ),
-              Text("RedViewModel counter ${redViewModel.counter.toString()}"),
+              Text("RedViewModel1 counter ${redViewModel1.counter.toString()}"),
               Buttons(
-                add: () => redViewModel.add(),
-                subtract: () => redViewModel.subtract(),
+                add: () => redViewModel1.add(),
+                subtract: () => redViewModel1.subtract(),
+              ),
+              Text("RedViewModel2 counter ${redViewModel1.counter.toString()}"),
+              Buttons(
+                add: () => redViewModel2.add(),
+                subtract: () => redViewModel2.subtract(),
               ),
               TextButton(
                 child: const Text("Back"),
@@ -98,6 +105,45 @@ class GreenScreen extends StatelessWidget {
                   },
                 )
               ]),
+        ));
+  }
+}
+
+class FutureScreen extends StatelessWidget {
+  const FutureScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        backgroundColor: Colors.blue,
+        body: Center(
+          child: FutureBuilder<FutureViewModel>(
+              future: getIt.getAsync<FutureViewModel>(),
+              builder: (context, AsyncSnapshot<FutureViewModel> snapshot) {
+                if (snapshot.hasData) {
+                  FutureViewModel futureViewModel = snapshot.data!;
+
+                  return Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        const Text("FutureScreen"),
+                        const Text('registerSingleton is initialized on use and saved'),
+                        Text("Future ViewModel counter ${futureViewModel.counter.toString()}"),
+                        Buttons(
+                          add: () => futureViewModel.add(),
+                          subtract: () => futureViewModel.subtract(),
+                        ),
+                        TextButton(
+                          child: const Text("Back"),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        )
+                      ]);
+                }
+                return const CircularProgressIndicator();
+              }),
         ));
   }
 }
