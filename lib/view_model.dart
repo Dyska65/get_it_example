@@ -48,7 +48,7 @@ class GreenViewModel {
 
 class FutureViewModel {
   static Future<FutureViewModel> createFutureViewModel() async {
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 5));
     print("create FutureViewModel");
     return FutureViewModel();
   }
@@ -62,5 +62,26 @@ class FutureViewModel {
   subtract() {
     counter--;
     print("Subtract FutureViewModel " + counter.toString());
+  }
+}
+
+abstract class ColorViewModel {
+  int counter = 1;
+  add() {}
+  subtract() {}
+}
+
+class PinkColorViewModel implements ColorViewModel {
+  @override
+  int counter = -10;
+
+  @override
+  add() {
+    counter++;
+  }
+
+  @override
+  subtract() {
+    counter--;
   }
 }

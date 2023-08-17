@@ -1,20 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:get_it_example/home_page.dart';
-import 'package:get_it_example/view_model.dart';
+import 'package:get_it_example/locator/locator.dart';
 
 GetIt getIt = GetIt.instance;
 
 void main() {
-  getIt.registerFactory<RedViewModel>(() => RedViewModel()..add(),
-      instanceName: "1 RedViewModel"); // init only when used and close if used again init
-  getIt.registerSingleton<YellowViewModel>(
-    YellowViewModel()..subtract(),
-  ); // init at the same time and store
-  getIt.registerLazySingleton<GreenViewModel>(
-      () => GreenViewModel()); // init only when used and store
-  getIt.registerFactory<RedViewModel>(() => RedViewModel(), instanceName: "2 RedViewModel");
-  getIt.registerFactoryAsync<FutureViewModel>(() => FutureViewModel.createFutureViewModel());
+  ServiceLocator.initLocator();
   runApp(const MyApp());
 }
 
@@ -28,6 +20,6 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: MyHomePage());
+        home: const MyHomePage());
   }
 }

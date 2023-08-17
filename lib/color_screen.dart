@@ -115,7 +115,7 @@ class FutureScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.grey,
         body: Center(
           child: FutureBuilder<FutureViewModel>(
               future: getIt.getAsync<FutureViewModel>(),
@@ -146,6 +146,38 @@ class FutureScreen extends StatelessWidget {
                   color: Colors.white,
                 );
               }),
+        ));
+  }
+}
+
+class PinkScreen extends StatelessWidget {
+  const PinkScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    ColorViewModel pinkColorViewModel = getIt.get<ColorViewModel>();
+
+    return Scaffold(
+        backgroundColor: Colors.green,
+        body: Center(
+          child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                const Text("Pink Screen"),
+                const Text('registerSingleton Example using interface'),
+                Text("PinkColorViewModel counter ${pinkColorViewModel.counter.toString()}"),
+                Buttons(
+                  add: () => pinkColorViewModel.add(),
+                  subtract: () => pinkColorViewModel.subtract(),
+                ),
+                TextButton(
+                  child: const Text("Back"),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                )
+              ]),
         ));
   }
 }

@@ -35,7 +35,25 @@ class _MyHomePageState extends State<MyHomePage> {
                             () => FutureViewModel.createFutureViewModel());
 
                     setState(() {});
-                  })
+                  }),
+              _buildWidgetLoadingViewmodel(
+                  () => getIt.isReady<FutureViewModel>(), "FutureViewModel"),
+              buildColorItem(
+                  name: "ViewModel register from interface",
+                  isRegisteredViewModel: getIt.isRegistered<ColorViewModel>(),
+                  nextPage: () => Navigator.push(
+                        context,
+                        MaterialPageRoute<void>(
+                          builder: (BuildContext context) => const PinkScreen(),
+                        ),
+                      ),
+                  onRegistering: () async {
+                    getIt.isRegistered<ColorViewModel>()
+                        ? await getIt.unregister<ColorViewModel>()
+                        : getIt.registerSingleton<ColorViewModel>(PinkColorViewModel());
+
+                    setState(() {});
+                  }),
             ]),
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -56,6 +74,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
                       setState(() {});
                     }),
+                _buildWidgetLoadingViewmodel(
+                    () => Future.value(getIt.isReadySync<YellowViewModel>()), "YellowViewModel"),
                 buildColorItem(
                     name: "Red ",
                     isRegisteredViewModel: getIt.isRegistered<RedViewModel>(),
@@ -120,4 +140,17 @@ Widget buildColorItem({
       ),
     ],
   );
+}
+
+_buildWidgetLoadingViewmodel(Future<void> Function() isReady, String nameViewModel) {
+  return FutureBuilder(
+      future: isReady(),
+      builder: (context, AsyncSnapshot snapshot) {
+        if (snapshot.hasData) {
+          return Center(child: Text("$nameViewModel is Ready"));
+        }
+        return const CircularProgressIndicator(
+          color: Colors.blue,
+        );
+      });
 }
