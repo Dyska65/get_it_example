@@ -44,7 +44,6 @@ class _ScopeScreenState extends State<ScopeScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                const Text("Pink Screen"),
                 const Text('Work with Scope'),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -80,46 +79,66 @@ class _ScopeScreenState extends State<ScopeScreen> {
             Text(nameViewModel),
             Text(viewModel.counter.toString()),
             AddSubtractButtons(
-                subtract: () => setState(() {
-                      print(getIt.currentScopeName);
-                      viewModel.subtract();
-                    }),
+                subtract: () => setState(() => viewModel.subtract()),
                 add: () => setState(() => viewModel.add())),
           ]),
     );
   }
 
   _buildContainerNewScope() {
-    ScopeViewModel scopeViewModel = getIt.get<ScopeViewModel>();
+    ScopeAndRxDartViewModel scopeViewModel = getIt.get<ScopeAndRxDartViewModel>();
     return Container(
       height: 300,
       width: 300,
       color: Colors.white,
-      child: StreamBuilder(
+      child: StreamBuilder<String>(
           stream: scopeViewModel.currentScope,
           builder: (context, snapshot) {
-            print(" StreamBuilder " + snapshot.data.toString());
+            String currentScope = snapshot.data.toString();
             return Column(
               children: [
                 TextButton(
                   child: Text(
-                    snapshot.data == "Scope 2" ? "Close Scope" : "Create new Scope",
+                    currentScope == "Scope 2" ? "Close Scope" : "Create new Scope",
                     style: const TextStyle(color: Colors.black),
                   ),
                   onPressed: () async {
                     if (getIt.currentScopeName != "Scope 2") {
-                      // ServiceLocator.setupScope("Scope 2");
                       // await ServiceLocator.popScope();
                       getIt.pushNewScope(
                         scopeName: "Scope 2",
-                        dispose: () => print("Dispose " + "Scope 2"),
+                        dispose: () => print("Dispose Scope 2"),
                       );
                     } else {
                       await ServiceLocator.dropScope("Scope 2");
                     }
                   },
                 ),
-                Text(snapshot.data.toString())
+                Text("Current Scope: " + currentScope),
+                const SizedBox(height: 50),
+                TextButton(
+                  child: const Text(
+                    "Create new async Scope",
+                    style: TextStyle(color: Colors.black),
+                  ),
+                  onPressed: () async {
+                    if (getIt.currentScopeName != "Scope 3 Async") {
+                      getIt.pushNewScopeAsync(
+                        init: (getIt) async {
+                          await Future.delayed(const Duration(seconds: 3));
+                        },
+                        scopeName: "Scope 3 Async",
+                        dispose: () => print("Dispose Scope 3 Async"),
+                      );
+                    } else {
+                      await ServiceLocator.dropScope("Scope 3 Async");
+                    }
+                  },
+                ),
+                // if(currentScope=="Scope 3 Async")
+                // FutureBuilder<>(
+                //   future: ,
+                //   builder: (BuildContext, AsyncSnapshot<dynamic> snapshot){}),
               ],
             );
           }),

@@ -22,7 +22,7 @@ class ServiceLocator {
     getIt.registerSingletonAsync<FutureViewModel>(() => FutureViewModel.createFutureViewModel());
     // getIt.registerSingleton<ColorViewModel>(
     //     PinkColorViewModelImpl()); // example used interface https://vc.ru/s/2091385-devblog-razrabotka-na-flutter/758796-getit-prostoy-i-udobnyy-servis-lokator
-    getIt.registerSingleton<ScopeViewModel>(ScopeViewModel()..listenScopes());
+    getIt.registerSingleton<ScopeAndRxDartViewModel>(ScopeAndRxDartViewModel()..listenScopes());
   }
 
   static setupScope(String nameScope) {
