@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:get_it_example/home_page.dart';
+import 'package:get_it_example/screens/home_page.dart';
 import 'package:get_it_example/locator/locator.dart';
 
 GetIt getIt = GetIt.instance;
 
-void main() {
+// If used instanceName you can call this viewModel only by instanceName
+void main() async {
   ServiceLocator.initLocator();
   runApp(const MyApp());
 }

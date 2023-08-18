@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:get_it_example/color_screen.dart';
+import 'package:get_it_example/screens/color_screens.dart';
 import 'package:get_it_example/main.dart';
-import 'package:get_it_example/view_model.dart';
+import 'package:get_it_example/screens/scope_screen.dart';
+import 'package:get_it_example/screens/future_screen.dart';
+import 'package:get_it_example/viewModels/abstract_view_models.dart';
+import 'package:get_it_example/viewModels/future_view_model.dart';
+import 'package:get_it_example/viewModels/view_models.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -36,21 +40,21 @@ class _MyHomePageState extends State<MyHomePage> {
 
                     setState(() {});
                   }),
-              _buildWidgetLoadingViewmodel(
+              _buildWidgetLoadingViewModel(
                   () => getIt.isReady<FutureViewModel>(), "FutureViewModel"),
               buildColorItem(
                   name: "ViewModel register from interface",
-                  isRegisteredViewModel: getIt.isRegistered<ColorViewModel>(),
+                  isRegisteredViewModel: getIt.isRegistered<AbstractViewModel>(),
                   nextPage: () => Navigator.push(
                         context,
                         MaterialPageRoute<void>(
-                          builder: (BuildContext context) => const PinkScreen(),
+                          builder: (BuildContext context) => const ScopeScreen(),
                         ),
                       ),
                   onRegistering: () async {
-                    getIt.isRegistered<ColorViewModel>()
-                        ? await getIt.unregister<ColorViewModel>()
-                        : getIt.registerSingleton<ColorViewModel>(PinkColorViewModel());
+                    getIt.isRegistered<AbstractViewModel>()
+                        ? await getIt.unregister<AbstractViewModel>()
+                        : getIt.registerSingleton<AbstractViewModel>(PinkColorViewModelImpl());
 
                     setState(() {});
                   }),
@@ -74,7 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
                       setState(() {});
                     }),
-                _buildWidgetLoadingViewmodel(
+                _buildWidgetLoadingViewModel(
                     () => Future.value(getIt.isReadySync<YellowViewModel>()), "YellowViewModel"),
                 buildColorItem(
                     name: "Red ",
@@ -142,7 +146,7 @@ Widget buildColorItem({
   );
 }
 
-_buildWidgetLoadingViewmodel(Future<void> Function() isReady, String nameViewModel) {
+_buildWidgetLoadingViewModel(Future<void> Function() isReady, String nameViewModel) {
   return FutureBuilder(
       future: isReady(),
       builder: (context, AsyncSnapshot snapshot) {
