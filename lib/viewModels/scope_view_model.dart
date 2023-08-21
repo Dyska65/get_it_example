@@ -7,10 +7,8 @@ class ScopeAndRxDartViewModel {
 
   listenScopes() {
     getIt.onScopeChanged = (pushed) {
-      print("Listener Scope " +
-          getIt.currentScopeName.toString() +
-          " onScopeChanged " +
-          pushed.toString());
+      print(
+          "Listener Scope ${getIt.currentScopeName.toString()} onScopeChanged ${pushed.toString()}");
       currentScope.add(getIt.currentScopeName.toString());
     };
   }

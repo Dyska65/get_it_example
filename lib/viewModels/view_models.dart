@@ -1,11 +1,17 @@
+import 'dart:async';
+
 class RedViewModel {
-  int counter = 1;
+  int _counter = 0;
+  final StreamController<int> _streamController = StreamController<int>.broadcast();
+
+  Stream<int> get state => _streamController.stream;
+
   add() {
-    counter++;
+    _streamController.add(_counter++);
   }
 
   subtract() {
-    counter--;
+    _streamController.add(_counter--);
   }
 }
 

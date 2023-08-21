@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get_it_example/components/home_page_item.dart';
 import 'package:get_it_example/screens/color_screens.dart';
 import 'package:get_it_example/main.dart';
 import 'package:get_it_example/screens/scope_screen.dart';
@@ -23,95 +24,66 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: <Widget>[
-              buildColorItem(
-                  name: "Future ModelView",
-                  isRegisteredViewModel: getIt.isRegistered<FutureViewModel>(),
-                  nextPage: () => Navigator.push(
-                        context,
-                        MaterialPageRoute<void>(
-                          builder: (BuildContext context) => const FutureScreen(),
-                        ),
-                      ),
-                  onRegistering: () async {
-                    getIt.isRegistered<FutureViewModel>()
-                        ? await getIt.unregister<FutureViewModel>()
-                        : getIt.registerFactoryAsync<FutureViewModel>(
-                            () => FutureViewModel.createFutureViewModel());
-
-                    setState(() {});
-                  }),
+              HomePageItem(
+                name: "Future ModelView",
+                isRegisteredViewModel: getIt.isRegistered<FutureViewModel>(),
+                moveToPage: () => Navigator.push(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) => const FutureScreen(),
+                  ),
+                ),
+              ),
               _buildWidgetLoadingViewModel(
                   () => getIt.isReady<FutureViewModel>(), "FutureViewModel"),
-              buildColorItem(
-                  name: "ViewModel register from interface",
-                  isRegisteredViewModel: getIt.isRegistered<AbstractViewModel>(),
-                  nextPage: () => Navigator.push(
-                        context,
-                        MaterialPageRoute<void>(
-                          builder: (BuildContext context) => const ScopeScreen(),
-                        ),
-                      ),
-                  onRegistering: () async {
-                    getIt.isRegistered<AbstractViewModel>()
-                        ? await getIt.unregister<AbstractViewModel>()
-                        : getIt.registerSingleton<AbstractViewModel>(PinkColorViewModelImpl());
-
-                    setState(() {});
-                  }),
+              HomePageItem(
+                name: "ViewModel register from interface",
+                isRegisteredViewModel: getIt.isRegistered<AbstractViewModel>(),
+                moveToPage: () => Navigator.push(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) => const ScopeScreen(),
+                  ),
+                ),
+              ),
             ]),
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                buildColorItem(
-                    name: "Yellow ",
-                    isRegisteredViewModel: getIt.isRegistered<YellowViewModel>(),
-                    nextPage: () => Navigator.push(
-                          context,
-                          MaterialPageRoute<void>(
-                            builder: (BuildContext context) => const YellowScreen(),
-                          ),
-                        ),
-                    onRegistering: () async {
-                      getIt.isRegistered<YellowViewModel>()
-                          ? await getIt.unregister<YellowViewModel>()
-                          : getIt.registerSingleton<YellowViewModel>(YellowViewModel());
-
-                      setState(() {});
-                    }),
+                HomePageItem(
+                  name: "Yellow ",
+                  isRegisteredViewModel: getIt.isRegistered<YellowViewModel>(),
+                  moveToPage: () => Navigator.push(
+                    context,
+                    MaterialPageRoute<void>(
+                      builder: (BuildContext context) => const YellowScreen(),
+                    ),
+                  ),
+                ),
                 _buildWidgetLoadingViewModel(
-                    () => Future.value(getIt.isReadySync<YellowViewModel>()), "YellowViewModel"),
-                buildColorItem(
-                    name: "Red ",
-                    isRegisteredViewModel: getIt.isRegistered<RedViewModel>(),
-                    nextPage: () => Navigator.push(
-                          context,
-                          MaterialPageRoute<void>(
-                            builder: (BuildContext context) => const RedScreen(),
-                          ),
-                        ),
-                    onRegistering: () async {
-                      getIt.isRegistered<RedViewModel>()
-                          ? await getIt.unregister<RedViewModel>()
-                          : getIt.registerSingleton<RedViewModel>(RedViewModel());
-
-                      setState(() {});
-                    }),
-                buildColorItem(
-                    name: "Green ",
-                    isRegisteredViewModel: getIt.isRegistered<GreenViewModel>(),
-                    nextPage: () => Navigator.push(
-                          context,
-                          MaterialPageRoute<void>(
-                            builder: (BuildContext context) => const GreenScreen(),
-                          ),
-                        ),
-                    onRegistering: () async {
-                      getIt.isRegistered<GreenViewModel>()
-                          ? await getIt.unregister<GreenViewModel>()
-                          : getIt.registerSingleton<GreenViewModel>(GreenViewModel());
-
-                      setState(() {});
-                    }),
+                  () => Future.value(getIt.isReadySync<YellowViewModel>()),
+                  "YellowViewModel",
+                ),
+                HomePageItem(
+                  name: "Simple Stream + Red ",
+                  isRegisteredViewModel: getIt.isRegistered<RedViewModel>(),
+                  moveToPage: () => Navigator.push(
+                    context,
+                    MaterialPageRoute<void>(
+                      builder: (BuildContext context) => const RedScreen(),
+                    ),
+                  ),
+                ),
+                HomePageItem(
+                  name: "Green ",
+                  isRegisteredViewModel: getIt.isRegistered<GreenViewModel>(),
+                  moveToPage: () => Navigator.push(
+                    context,
+                    MaterialPageRoute<void>(
+                      builder: (BuildContext context) => const GreenScreen(),
+                    ),
+                  ),
+                ),
               ],
             ),
           ],
@@ -121,40 +93,16 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-Widget buildColorItem({
-  required String name,
-  required bool isRegisteredViewModel,
-  required Function() nextPage,
-  required Function() onRegistering,
-}) {
-  return Column(
-    children: [
-      Text("isRegistered $name " + isRegisteredViewModel.toString()),
-      TextButton(
-        onPressed: () async {
-          onRegistering();
-        },
-        child: Text(isRegisteredViewModel ? 'Unregistered $name' : 'Registered $name'),
-      ),
-      TextButton(
-        child: Text("Move to $name screen"),
-        onPressed: () {
-          nextPage();
-        },
-      ),
-    ],
-  );
-}
-
 _buildWidgetLoadingViewModel(Future<void> Function() isReady, String nameViewModel) {
   return FutureBuilder(
-      future: isReady(),
-      builder: (context, AsyncSnapshot snapshot) {
-        if (snapshot.hasData) {
-          return Center(child: Text("$nameViewModel is Ready"));
-        }
-        return const CircularProgressIndicator(
-          color: Colors.blue,
-        );
-      });
+    future: isReady(),
+    builder: (context, AsyncSnapshot snapshot) {
+      if (snapshot.hasData) {
+        return Center(child: Text("$nameViewModel is Ready"));
+      }
+      return const CircularProgressIndicator(
+        color: Colors.blue,
+      );
+    },
+  );
 }
