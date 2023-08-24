@@ -1,6 +1,7 @@
 import 'package:get_it_example/main.dart';
 import 'package:get_it_example/viewModels/abstract_view_models.dart';
 import 'package:get_it_example/viewModels/future_view_model.dart';
+import 'package:get_it_example/viewModels/red_view_model_stream.dart';
 import 'package:get_it_example/viewModels/scope_view_model.dart';
 import 'package:get_it_example/viewModels/view_models.dart';
 

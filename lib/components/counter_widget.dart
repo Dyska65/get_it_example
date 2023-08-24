@@ -17,7 +17,7 @@ class CounterStream extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 200,
-      height: 200,
+      height: 150,
       child: Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
         Text(title),
         StreamBuilder(

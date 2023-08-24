@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get_it_example/components/home_page_item.dart';
 import 'package:get_it_example/screens/color_screens.dart';
 import 'package:get_it_example/main.dart';
+import 'package:get_it_example/screens/red_stream_screen.dart';
 import 'package:get_it_example/screens/scope_screen.dart';
 import 'package:get_it_example/screens/future_screen.dart';
+import 'package:get_it_example/screens/yellow_rxdart_screen.dart';
 import 'package:get_it_example/viewModels/abstract_view_models.dart';
 import 'package:get_it_example/viewModels/future_view_model.dart';
+import 'package:get_it_example/viewModels/red_view_model_stream.dart';
 import 'package:get_it_example/viewModels/view_models.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -51,7 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 HomePageItem(
-                  name: "Yellow ",
+                  name: "Yellow + RxDart",
                   isRegisteredViewModel: getIt.isRegistered<YellowViewModel>(),
                   moveToPage: () => Navigator.push(
                     context,
